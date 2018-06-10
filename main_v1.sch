@@ -304,11 +304,11 @@ W = angled&lt;p&gt;
 <wire x1="1.905" y1="1.27" x2="1.27" y2="0.635" width="0.1524" layer="21"/>
 <wire x1="1.27" y1="-0.635" x2="1.905" y2="-1.27" width="0.1524" layer="21"/>
 <wire x1="3.175" y1="-1.27" x2="1.905" y2="-1.27" width="0.1524" layer="21"/>
-<pad name="1" x="-5.08" y="0" drill="1.016" shape="long" rot="R90"/>
-<pad name="2" x="-2.54" y="0" drill="1.016" shape="long" rot="R90"/>
-<pad name="3" x="0" y="0" drill="1.016" shape="long" rot="R90"/>
-<pad name="4" x="2.54" y="0" drill="1.016" shape="long" rot="R90"/>
-<pad name="5" x="5.08" y="0" drill="1.016" shape="long" rot="R90"/>
+<pad name="1" x="-5.08" y="0" drill="1.016" shape="octagon" rot="R90"/>
+<pad name="2" x="-2.54" y="0" drill="1.016" shape="octagon" rot="R90"/>
+<pad name="3" x="0" y="0" drill="1.016" shape="octagon" rot="R90"/>
+<pad name="4" x="2.54" y="0" drill="1.016" shape="octagon" rot="R90"/>
+<pad name="5" x="5.08" y="0" drill="1.016" shape="octagon" rot="R90"/>
 <text x="-6.35" y="1.651" size="1.27" layer="25" ratio="10">&gt;NAME</text>
 <text x="-5.715" y="-2.921" size="1.27" layer="21" ratio="10">1</text>
 <text x="4.445" y="1.651" size="1.27" layer="21" ratio="10">5</text>
@@ -16960,15 +16960,15 @@ In this library the device names are the same as the pin names of the symbols, t
 <part name="R10" library="resistor" deviceset="R-EU_" device="0204/7"/>
 <part name="R11" library="resistor" deviceset="R-EU_" device="0204/7"/>
 <part name="R12" library="resistor" deviceset="R-EU_" device="0204/7"/>
-<part name="R13" library="resistor" deviceset="R-EU_" device="0204/7"/>
+<part name="R13" library="resistor" deviceset="R-EU_" device="0204/2V"/>
 <part name="R14" library="resistor" deviceset="R-EU_" device="0204/7"/>
-<part name="R15" library="resistor" deviceset="R-EU_" device="0204/7"/>
+<part name="R15" library="resistor" deviceset="R-EU_" device="0204/2V"/>
 <part name="P+6" library="supply1" deviceset="VCC" device=""/>
 <part name="GND8" library="supply1" deviceset="GND" device=""/>
 <part name="R16" library="resistor" deviceset="R-EU_" device="0204/7"/>
 <part name="ICSP2" library="con-lstb" deviceset="MA05-1" device=""/>
 <part name="ESP8266" library="adafruit" deviceset="PINHD-2X4" device=""/>
-<part name="R17" library="resistor" deviceset="R-EU_" device="0204/7"/>
+<part name="R17" library="resistor" deviceset="R-EU_" device="0204/2V"/>
 </parts>
 <sheets>
 <sheet>
