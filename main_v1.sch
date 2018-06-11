@@ -16962,13 +16962,12 @@ In this library the device names are the same as the pin names of the symbols, t
 <part name="R12" library="resistor" deviceset="R-EU_" device="0204/7"/>
 <part name="R13" library="resistor" deviceset="R-EU_" device="0204/2V"/>
 <part name="R14" library="resistor" deviceset="R-EU_" device="0204/7"/>
-<part name="R15" library="resistor" deviceset="R-EU_" device="0204/2V"/>
+<part name="R15" library="resistor" deviceset="R-EU_" device="0204/7" value="4k7"/>
 <part name="P+6" library="supply1" deviceset="VCC" device=""/>
 <part name="GND8" library="supply1" deviceset="GND" device=""/>
-<part name="R16" library="resistor" deviceset="R-EU_" device="0204/7"/>
-<part name="ICSP2" library="con-lstb" deviceset="MA05-1" device=""/>
+<part name="R16" library="resistor" deviceset="R-EU_" device="0204/7" value="4k7"/>
+<part name="ICSP_ESP" library="con-lstb" deviceset="MA05-1" device=""/>
 <part name="ESP8266" library="adafruit" deviceset="PINHD-2X4" device=""/>
-<part name="R17" library="resistor" deviceset="R-EU_" device="0204/2V"/>
 </parts>
 <sheets>
 <sheet>
@@ -17054,10 +17053,9 @@ In this library the device names are the same as the pin names of the symbols, t
 <instance part="R15" gate="G$1" x="-81.28" y="294.64" rot="R270"/>
 <instance part="P+6" gate="VCC" x="-129.54" y="320.04"/>
 <instance part="GND8" gate="1" x="-114.3" y="208.28"/>
-<instance part="R16" gate="G$1" x="-86.36" y="294.64" rot="R270"/>
-<instance part="ICSP2" gate="G$1" x="-63.5" y="248.92" rot="R180"/>
+<instance part="R16" gate="G$1" x="-91.44" y="294.64" rot="R270"/>
+<instance part="ICSP_ESP" gate="G$1" x="-63.5" y="248.92" rot="R180"/>
 <instance part="ESP8266" gate="A" x="-116.84" y="271.78"/>
-<instance part="R17" gate="G$1" x="-129.54" y="294.64" rot="R270"/>
 </instances>
 <busses>
 <bus name="OUT[0..32],HT+[1..4],HT-[1..4],GATE[1..4],SPARE[1..4]">
@@ -17197,7 +17195,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="38.1" y1="358.14" x2="38.1" y2="337.82" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="ICSP2" gate="G$1" pin="3"/>
+<pinref part="ICSP_ESP" gate="G$1" pin="3"/>
 <wire x1="-71.12" y1="248.92" x2="-101.6" y2="248.92" width="0.1524" layer="91"/>
 <pinref part="GND8" gate="1" pin="GND"/>
 <wire x1="-101.6" y1="248.92" x2="-114.3" y2="248.92" width="0.1524" layer="91"/>
@@ -17206,6 +17204,8 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="-111.76" y1="276.86" x2="-101.6" y2="276.86" width="0.1524" layer="91"/>
 <wire x1="-101.6" y1="276.86" x2="-101.6" y2="248.92" width="0.1524" layer="91"/>
 <junction x="-101.6" y="248.92"/>
+<label x="-78.74" y="248.92" size="1.778" layer="95"/>
+<label x="-106.68" y="276.86" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="VCC" class="0">
@@ -17282,11 +17282,11 @@ In this library the device names are the same as the pin names of the symbols, t
 <pinref part="R15" gate="G$1" pin="1"/>
 <wire x1="-129.54" y1="312.42" x2="-129.54" y2="317.5" width="0.1524" layer="91"/>
 <wire x1="-81.28" y1="299.72" x2="-81.28" y2="312.42" width="0.1524" layer="91"/>
-<wire x1="-81.28" y1="312.42" x2="-86.36" y2="312.42" width="0.1524" layer="91"/>
+<wire x1="-81.28" y1="312.42" x2="-91.44" y2="312.42" width="0.1524" layer="91"/>
 <pinref part="R16" gate="G$1" pin="1"/>
-<wire x1="-86.36" y1="312.42" x2="-129.54" y2="312.42" width="0.1524" layer="91"/>
-<wire x1="-86.36" y1="299.72" x2="-86.36" y2="312.42" width="0.1524" layer="91"/>
-<junction x="-86.36" y="312.42"/>
+<wire x1="-91.44" y1="312.42" x2="-129.54" y2="312.42" width="0.1524" layer="91"/>
+<wire x1="-91.44" y1="299.72" x2="-91.44" y2="312.42" width="0.1524" layer="91"/>
+<junction x="-91.44" y="312.42"/>
 <pinref part="R14" gate="G$1" pin="1"/>
 <wire x1="-137.16" y1="299.72" x2="-137.16" y2="312.42" width="0.1524" layer="91"/>
 <wire x1="-137.16" y1="312.42" x2="-129.54" y2="312.42" width="0.1524" layer="91"/>
@@ -17295,8 +17295,10 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="-144.78" y1="299.72" x2="-144.78" y2="312.42" width="0.1524" layer="91"/>
 <wire x1="-144.78" y1="312.42" x2="-137.16" y2="312.42" width="0.1524" layer="91"/>
 <junction x="-137.16" y="312.42"/>
-<pinref part="R17" gate="G$1" pin="1"/>
-<wire x1="-129.54" y1="299.72" x2="-129.54" y2="312.42" width="0.1524" layer="91"/>
+<pinref part="ESP8266" gate="A" pin="7"/>
+<wire x1="-129.54" y1="312.42" x2="-129.54" y2="269.24" width="0.1524" layer="91"/>
+<wire x1="-129.54" y1="269.24" x2="-119.38" y2="269.24" width="0.1524" layer="91"/>
+<label x="-129.54" y="269.24" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="MOSI" class="0">
@@ -18180,11 +18182,12 @@ In this library the device names are the same as the pin names of the symbols, t
 <segment>
 <pinref part="R16" gate="G$1" pin="2"/>
 <pinref part="ESP8266" gate="A" pin="4"/>
-<wire x1="-111.76" y1="274.32" x2="-86.36" y2="274.32" width="0.1524" layer="91"/>
-<wire x1="-86.36" y1="274.32" x2="-86.36" y2="289.56" width="0.1524" layer="91"/>
+<wire x1="-111.76" y1="274.32" x2="-91.44" y2="274.32" width="0.1524" layer="91"/>
+<wire x1="-91.44" y1="274.32" x2="-91.44" y2="289.56" width="0.1524" layer="91"/>
 <label x="-76.2" y="274.32" size="1.778" layer="95"/>
-<wire x1="-86.36" y1="274.32" x2="-78.74" y2="274.32" width="0.1524" layer="91"/>
-<junction x="-86.36" y="274.32"/>
+<wire x1="-91.44" y1="274.32" x2="-78.74" y2="274.32" width="0.1524" layer="91"/>
+<junction x="-91.44" y="274.32"/>
+<label x="-106.68" y="274.32" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="IC1" gate="G$1" pin="PC5(ADC5/SCL)"/>
@@ -18192,38 +18195,35 @@ In this library the device names are the same as the pin names of the symbols, t
 <label x="38.1" y="213.36" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$10" class="0">
+<net name="TX" class="0">
 <segment>
 <pinref part="ESP8266" gate="A" pin="1"/>
 <wire x1="-119.38" y1="276.86" x2="-132.08" y2="276.86" width="0.1524" layer="91"/>
-<pinref part="ICSP2" gate="G$1" pin="1"/>
+<pinref part="ICSP_ESP" gate="G$1" pin="1"/>
 <wire x1="-132.08" y1="276.86" x2="-132.08" y2="254" width="0.1524" layer="91"/>
 <wire x1="-132.08" y1="254" x2="-71.12" y2="254" width="0.1524" layer="91"/>
+<label x="-78.74" y="254" size="1.778" layer="95"/>
+<label x="-127" y="276.86" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$14" class="0">
+<net name="RX" class="0">
 <segment>
 <pinref part="ESP8266" gate="A" pin="8"/>
 <wire x1="-111.76" y1="269.24" x2="-99.06" y2="269.24" width="0.1524" layer="91"/>
-<pinref part="ICSP2" gate="G$1" pin="2"/>
+<pinref part="ICSP_ESP" gate="G$1" pin="2"/>
 <wire x1="-99.06" y1="269.24" x2="-99.06" y2="251.46" width="0.1524" layer="91"/>
 <wire x1="-99.06" y1="251.46" x2="-71.12" y2="251.46" width="0.1524" layer="91"/>
+<label x="-78.74" y="251.46" size="1.778" layer="95"/>
+<label x="-106.68" y="269.24" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$17" class="0">
+<net name="CHPD" class="0">
 <segment>
 <pinref part="ESP8266" gate="A" pin="3"/>
 <pinref part="R14" gate="G$1" pin="2"/>
 <wire x1="-119.38" y1="274.32" x2="-137.16" y2="274.32" width="0.1524" layer="91"/>
 <wire x1="-137.16" y1="274.32" x2="-137.16" y2="289.56" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$19" class="0">
-<segment>
-<pinref part="ESP8266" gate="A" pin="5"/>
-<pinref part="R13" gate="G$1" pin="2"/>
-<wire x1="-119.38" y1="271.78" x2="-144.78" y2="271.78" width="0.1524" layer="91"/>
-<wire x1="-144.78" y1="271.78" x2="-144.78" y2="289.56" width="0.1524" layer="91"/>
+<label x="-129.54" y="274.32" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="SDA" class="0">
@@ -18238,8 +18238,10 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="-96.52" y1="246.38" x2="-96.52" y2="271.78" width="0.1524" layer="91"/>
 <wire x1="-81.28" y1="271.78" x2="-78.74" y2="271.78" width="0.1524" layer="91"/>
 <junction x="-81.28" y="271.78"/>
-<pinref part="ICSP2" gate="G$1" pin="4"/>
+<pinref part="ICSP_ESP" gate="G$1" pin="4"/>
 <wire x1="-71.12" y1="246.38" x2="-96.52" y2="246.38" width="0.1524" layer="91"/>
+<label x="-78.74" y="246.38" size="1.778" layer="95"/>
+<label x="-106.68" y="271.78" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="IC1" gate="G$1" pin="PC4(ADC4/SDA)"/>
@@ -18247,16 +18249,18 @@ In this library the device names are the same as the pin names of the symbols, t
 <label x="38.1" y="215.9" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$12" class="0">
+<net name="ESP_RST" class="0">
 <segment>
-<pinref part="ESP8266" gate="A" pin="7"/>
-<wire x1="-119.38" y1="269.24" x2="-129.54" y2="269.24" width="0.1524" layer="91"/>
-<wire x1="-129.54" y1="243.84" x2="-129.54" y2="269.24" width="0.1524" layer="91"/>
-<pinref part="R17" gate="G$1" pin="2"/>
-<wire x1="-129.54" y1="289.56" x2="-129.54" y2="269.24" width="0.1524" layer="91"/>
-<junction x="-129.54" y="269.24"/>
-<pinref part="ICSP2" gate="G$1" pin="5"/>
-<wire x1="-71.12" y1="243.84" x2="-129.54" y2="243.84" width="0.1524" layer="91"/>
+<pinref part="ICSP_ESP" gate="G$1" pin="5"/>
+<wire x1="-71.12" y1="243.84" x2="-144.78" y2="243.84" width="0.1524" layer="91"/>
+<label x="-81.28" y="243.84" size="1.778" layer="95"/>
+<pinref part="R13" gate="G$1" pin="2"/>
+<wire x1="-144.78" y1="271.78" x2="-144.78" y2="289.56" width="0.1524" layer="91"/>
+<pinref part="ESP8266" gate="A" pin="5"/>
+<wire x1="-119.38" y1="271.78" x2="-144.78" y2="271.78" width="0.1524" layer="91"/>
+<wire x1="-144.78" y1="271.78" x2="-144.78" y2="243.84" width="0.1524" layer="91"/>
+<junction x="-144.78" y="271.78"/>
+<label x="-129.54" y="271.78" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
