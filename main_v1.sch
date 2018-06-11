@@ -16960,7 +16960,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <part name="R10" library="resistor" deviceset="R-EU_" device="0204/7"/>
 <part name="R11" library="resistor" deviceset="R-EU_" device="0204/7"/>
 <part name="R12" library="resistor" deviceset="R-EU_" device="0204/7"/>
-<part name="R13" library="resistor" deviceset="R-EU_" device="0204/2V"/>
+<part name="R13" library="resistor" deviceset="R-EU_" device="0207/10"/>
 <part name="R14" library="resistor" deviceset="R-EU_" device="0204/7"/>
 <part name="R15" library="resistor" deviceset="R-EU_" device="0204/7" value="4k7"/>
 <part name="P+6" library="supply1" deviceset="VCC" device=""/>
