@@ -10,6 +10,11 @@
 
 #include <AceTime.h>
 #include <sntp.h>
+#include <SPI.h>
+
+#define LOAD D4
+#define BLANK D3
+
 using namespace ace_time;
 
 static const char AUX_TIMEZONE[] PROGMEM = R"(
@@ -130,10 +135,16 @@ void showClock() {
     Serial.println(F("Error creating ZonedDateTime"));
     return;
   }
-  ace_common::PrintStr<64> dateTime;
-  zdt.printTo(dateTime);
+  
+  displayNumber(zdt.hour() * 100 + zdt.minute());
+}
 
-  Serial.println(dateTime.getCstr());
+void setBrightness() {
+  String brightness = Server.arg("brightness");
+  int a = brightness.toInt();
+  analogWrite(BLANK, a);
+  displayNumber(a);
+  Server.send(302, "text/plain", String(a));
 }
 
 void setTimezonePage() {
@@ -186,13 +197,111 @@ void streamTimezones() {
   Server.chunkedResponseFinalize();
 }
 
+/*
+ . a .
+ b   c
+ . d .
+ e   f
+ . g . h
+*/
+//               1             2            3
+//  0123 4567  8901 2345  6789 0123  4567 8901  2345 6789
+//  0000 0000  0000 0000  0000 0000  0000 0000  0000 0000
+//1 cabf  hGe         gd
+//2            gfba hG          ced  
+//3                        eGg         hf acdb
+//4                                  be         Ghgf cd a
+
+const byte bulbPattern[] = {
+ //hgfedcba
+  B01110111, // 0
+  B00100100, // 1
+  B01011101, // 2
+  B01101101, // 3
+  B00101110, // 4
+  B01101011, // 5
+  B01111011, // 6
+  B00100101, // 7
+  B01111111, // 8
+  B01101111, // 9
+};
+uint8_t pattern1[] = {1, 2, 0, 15, 7, 3, 14, 5, 6};
+uint8_t pattern2[] = {11, 10, 21, 23, 22, 9, 8, 12, 13};
+uint8_t pattern3[] = {28, 31, 29, 30, 17, 27, 19, 26, 18};
+uint8_t pattern4[] = {39, 24, 36, 37, 25, 35, 34, 33, 32};
+
+void displayNumber(long number) {
+  byte buffer[5] = {
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFF,
+  };
+
+  int thousands = number / 1000;
+  int hundreds = number / 100 % 10;
+  int tens = number / 10 % 10;
+  int units = number % 10;
+
+  for (int i = 0; i <= 7; i++) {
+    if (!bitRead(bulbPattern[thousands], i)) {
+      int bit = pattern1[i];
+      bitClear(buffer[bit / 8], bit % 8);
+    }
+    if (!bitRead(bulbPattern[hundreds], i)) {
+      int bit = pattern2[i];
+      bitClear(buffer[bit / 8], bit % 8);
+    }
+    if (!bitRead(bulbPattern[tens], i)) {
+      int bit = pattern3[i];
+      bitClear(buffer[bit / 8], bit % 8);
+    }
+    if (!bitRead(bulbPattern[units], i)) {
+      int bit = pattern4[i];
+      bitClear(buffer[bit / 8], bit % 8);
+    }
+  }
+  spiWrite(buffer);
+}
+
+void spiWrite(byte buffer[]) {
+  digitalWrite(LOAD, LOW);
+  SPI.beginTransaction(SPISettings(100000, MSBFIRST, SPI_MODE0));
+  SPI.transfer(buffer[0]);
+  SPI.transfer(buffer[1]);
+  SPI.transfer(buffer[2]);
+  SPI.transfer(buffer[3]);
+  SPI.transfer(buffer[4]);
+  SPI.endTransaction();
+  digitalWrite(LOAD, HIGH);
+}
+
 void setup() {
-  delay(1000);
+  SPI.begin();
+  // Init LOAD
+  pinMode(LOAD, OUTPUT);
+  digitalWrite(LOAD, HIGH);
+  // Init BLANK
+  pinMode(BLANK, OUTPUT);
+  // analogWrite(BLANK, 230);
+
+  int n = 0;
+  while (n <= 9) {
+    delay(250);
+    displayNumber(1111 * n++);
+  }
+
+  displayNumber(2);
   Serial.begin(115200);
+  displayNumber(3);
   Serial.println();
   
+  
   ntpClock.setup();
+  displayNumber(4);
   systemClock.setup();
+  displayNumber(5);
   // Set clock to 0 to prevent issues with Zones before sync.
   systemClock.setNow(0);
 
@@ -203,6 +312,8 @@ void setup() {
   Config.ticker = true;
   Portal.config(Config);
 
+  displayNumber(6);
+  
   // EEPROM Config
   EEPROM.begin(sizeof(uint32_t));
   uint32_t storedZoneId;
@@ -224,11 +335,13 @@ void setup() {
   // Set NTP server trigger handler
   Server.on("/set_timezone", setTimezonePage);
   Server.on("/stream_timezones", streamTimezones);
+  Server.on("/set_brightness", setBrightness);
 
   // Establish a connection with an autoReconnect option.
   if (Portal.begin()) {
     Serial.println("WiFi connected: " + WiFi.localIP().toString());
   }
+  displayNumber(7);
 }
 
 void loop() {
