@@ -86,6 +86,9 @@ static BasicZoneManager<1> zoneManager(zonedb::kZoneRegistrySize, zonedb::kZoneR
 clock::NtpClock ntpClock("pool.ntp.org");
 clock::SystemClockLoop systemClock(&ntpClock, nullptr, 60);
 
+int brightness = 512;
+int actual_brightness = 512;
+
 void rootPage() {
   String  content =
     "<html>"
@@ -135,16 +138,27 @@ void showClock() {
     Serial.println(F("Error creating ZonedDateTime"));
     return;
   }
-  
   displayNumber(zdt.hour() * 100 + zdt.minute());
+
+  // Dim between hours of 22 and 6
+  if (zdt.hour() > 22 && zdt.hour() < 6) {
+    brightness = 1000;
+  } else {
+    brightness = 512;
+  }
+
+  if (brightness != actual_brightness) {
+    actual_brightness = brightness;
+    analogWrite(BLANK, actual_brightness);
+  }
 }
 
 void setBrightness() {
-  String brightness = Server.arg("brightness");
-  int a = brightness.toInt();
-  analogWrite(BLANK, a);
+  String brightnessString = Server.arg("brightness");
+  int a = brightnessString.toInt();
+  brightness = a;
   displayNumber(a);
-  Server.send(302, "text/plain", String(a));
+  Server.send(200, "text/plain", String(a));
 }
 
 void setTimezonePage() {
@@ -152,8 +166,8 @@ void setTimezonePage() {
   // Values are accessible with the element name.
   String tz = Server.arg("timezone");
   tz.trim();
-  uint32_t selectedZoneId = tz.toInt();
-  if (0) {
+  uint32_t selectedZoneId = strtoul(tz.c_str(), NULL, 10);
+  if (0 || ULONG_MAX) {
     Server.send(500, "text/html", F("Invalid Zone ID"));
     return;
   }
@@ -278,13 +292,13 @@ void spiWrite(byte buffer[]) {
 }
 
 void setup() {
-  SPI.begin();
-  // Init LOAD
+  pinMode(BLANK, OUTPUT);
+  // Set brightness to 50%
+  analogWrite(BLANK, actual_brightness);
   pinMode(LOAD, OUTPUT);
   digitalWrite(LOAD, HIGH);
-  // Init BLANK
-  pinMode(BLANK, OUTPUT);
-  // analogWrite(BLANK, 230);
+
+  SPI.begin();
 
   int n = 0;
   while (n <= 9) {
@@ -292,16 +306,13 @@ void setup() {
     displayNumber(1111 * n++);
   }
 
-  displayNumber(2);
   Serial.begin(115200);
-  displayNumber(3);
   Serial.println();
   
-  
+  displayNumber(0);
+
   ntpClock.setup();
-  displayNumber(4);
   systemClock.setup();
-  displayNumber(5);
   // Set clock to 0 to prevent issues with Zones before sync.
   systemClock.setNow(0);
 
@@ -312,8 +323,6 @@ void setup() {
   Config.ticker = true;
   Portal.config(Config);
 
-  displayNumber(6);
-  
   // EEPROM Config
   EEPROM.begin(sizeof(uint32_t));
   uint32_t storedZoneId;
@@ -341,7 +350,6 @@ void setup() {
   if (Portal.begin()) {
     Serial.println("WiFi connected: " + WiFi.localIP().toString());
   }
-  displayNumber(7);
 }
 
 void loop() {
