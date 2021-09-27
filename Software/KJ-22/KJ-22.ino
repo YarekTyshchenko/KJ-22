@@ -141,7 +141,7 @@ void showClock() {
   displayNumber(zdt.hour() * 100 + zdt.minute());
 
   // Dim between hours of 22 and 6
-  if (zdt.hour() > 22 && zdt.hour() < 6) {
+  if (zdt.hour() >= 22 || zdt.hour() <= 6) {
     brightness = 1000;
   } else {
     brightness = 512;
