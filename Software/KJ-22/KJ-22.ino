@@ -80,7 +80,7 @@ AutoConnect       Portal(Server);
 AutoConnectConfig Config;
 AutoConnectAux    Timezone;
 
-uint32_t zoneId = zonedb::kZoneIdEtc_UTC;
+uint32_t zoneId = zonedb::kZoneIdEurope_London;
 static BasicZoneManager<1> zoneManager(zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
 
 clock::NtpClock ntpClock("pool.ntp.org");
@@ -321,10 +321,12 @@ void setup() {
   Config.boundaryOffset = sizeof(uint32_t);
   Config.autoReconnect = true;
   Config.ticker = true;
+  Config.apid = "KJ-22";
   Portal.config(Config);
 
   // EEPROM Config
   EEPROM.begin(sizeof(uint32_t));
+  EEPROM.begin(Portal.getEEPROMUsedSize());
   uint32_t storedZoneId;
   EEPROM.get(0, storedZoneId);
   auto selectedZone = zoneManager.createForZoneId(storedZoneId);
